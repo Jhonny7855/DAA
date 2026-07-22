@@ -1,70 +1,193 @@
-#include <iostream>
-#include <vector>
-using namespace std;
+#include <stdio.h>
 
-// Bubble Sort
-void bubbleSort(vector<int>& arr) {
-    int n = arr.size();
+int main() {
+    int a[100], n, i, j, temp;
 
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] > arr[j + 1])
-                swap(arr[j], arr[j + 1]);
-         }
-     }
- }
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-// Selection Sort
-void selectionSort(vector<int>& arr) {
-    int n = arr.size();
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
 
-    for (int i = 0; i < n - 1; i++) {
-        int minIndex = i;
+    for(i = 0; i < n - 1; i++) {
+        for(j = 0; j < n - i - 1; j++) {
+            if(a[j] > a[j + 1]) {
+                temp = a[j];
+                a[j] = a[j + 1];
+                a[j + 1] = temp;
+            }
+        }
+    }
 
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIndex])
-                minIndex = j;
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+#include <stdio.h>
+
+int main() {
+    int a[100], n, i, j, min, temp;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    for(i = 0; i < n - 1; i++) {
+        min = i;
+
+        for(j = i + 1; j < n; j++) {
+            if(a[j] < a[min])
+                min = j;
         }
 
-        swap(arr[i], arr[minIndex]);
+        temp = a[i];
+        a[i] = a[min];
+        a[min] = temp;
     }
+
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
 }
+#include <stdio.h>
 
-// Insertion Sort
-void insertionSort(vector<int>& arr) {
-    int n = arr.size();
+int main() {
+    int a[100], n, i, j, key;
 
-    for (int i = 1; i < n; i++) {
-        int key = arr[i];
-        int j = i - 1;
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    for(i = 1; i < n; i++) {
+        key = a[i];
+        j = i - 1;
+
+        while(j >= 0 && a[j] > key) {
+            a[j + 1] = a[j];
             j--;
         }
 
-        arr[j + 1] = key;
+        a[j + 1] = key;
+    }
+
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+#include <stdio.h>
+
+void quickSort(int a[], int low, int high);
+int partition(int a[], int low, int high);
+
+int main() {
+    int a[100], n, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    quickSort(a, 0, n - 1);
+
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+
+void quickSort(int a[], int low, int high) {
+    if(low < high) {
+        int p = partition(a, low, high);
+        quickSort(a, low, p - 1);
+        quickSort(a, p + 1, high);
     }
 }
 
-// Print Array
-void printArray(vector<int>& arr) {
-    for (int x : arr)
-        cout << x << " ";
-    cout << endl;
+int partition(int a[], int low, int high) {
+    int pivot = a[high];
+    int i = low - 1, j, temp;
+
+    for(j = low; j < high; j++) {
+        if(a[j] < pivot) {
+            i++;
+            temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
+
+    temp = a[i + 1];
+    a[i + 1] = a[high];
+    a[high] = temp;
+
+    return i + 1;
 }
+#include <stdio.h>
+
+void mergeSort(int a[], int low, int high);
+void merge(int a[], int low, int mid, int high);
 
 int main() {
-    vector<int> arr = {64, 34, 25, 12, 22, 11, 90};
+    int a[100], n, i;
 
-    cout << "Original Array: ";
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
 
-    printArray(arr);
+    printf("Enter elements:\n");
+    for(i = 0; i < n; i++)
+        scanf("%d", &a[i]);
 
-    bubbleSort(arr);   // Change to selectionSort(arr) or insertionSort(arr)
+    mergeSort(a, 0, n - 1);
 
-    cout << "Sorted Array: ";
-    printArray(arr);
+    printf("Sorted array: ");
+    for(i = 0; i < n; i++)
+        printf("%d ", a[i]);
 
     return 0;
+}
+
+void mergeSort(int a[], int low, int high) {
+    if(low < high) {
+        int mid = (low + high) / 2;
+        mergeSort(a, low, mid);
+        mergeSort(a, mid + 1, high);
+        merge(a, low, mid, high);
+    }
+}
+
+void merge(int a[], int low, int mid, int high) {
+    int temp[100];
+    int i = low, j = mid + 1, k = low;
+
+    while(i <= mid && j <= high) {
+        if(a[i] <= a[j])
+            temp[k++] = a[i++];
+        else
+            temp[k++] = a[j++];
+    }
+
+    while(i <= mid)
+        temp[k++] = a[i++];
+
+    while(j <= high)
+        temp[k++] = a[j++];
+
+    for(i = low; i <= high; i++)
+        a[i] = temp[i];
 }
