@@ -1,5 +1,8 @@
+
 #include <iostream>
+#include <chrono>
 using namespace std;
+using namespace chrono;
 
 // Recursive Factorial Function
 long long recursiveFactorial(int n)
@@ -25,30 +28,37 @@ long long iterativeFactorial(int n)
 
 int main()
 {
-    int n, choice;
+    int n;
 
     cout << "Enter a number: ";
     cin >> n;
 
-    cout << "\nChoose Method\n";
-    cout << "1. Iterative Factorial\n";
-    cout << "2. Recursive Factorial\n";
-    cout << "Enter Choice: ";
-    cin >> choice;
+    // Iterative Execution Time
+    auto start1 = high_resolution_clock::now();
 
-    switch (choice)
-    {
-        case 1:
-            cout << "\nFactorial = " << iterativeFactorial(n);
-            break;
+    long long result1 = iterativeFactorial(n);
 
-        case 2:
-            cout << "\nFactorial = " << recursiveFactorial(n);
-            break;
+    auto end1 = high_resolution_clock::now();
 
-        default:
-            cout << "\nInvalid Choice!";
-    }
+    double time1 = duration<double, micro>(end1 - start1).count();
+
+    // Recursive Execution Time
+    auto start2 = high_resolution_clock::now();
+
+    long long result2 = recursiveFactorial(n);
+
+    auto end2 = high_resolution_clock::now();
+
+    double time2 = duration<double, micro>(end2 - start2).count();
+
+    // Display Results
+    cout << "\n--- Iterative Method ---";
+    cout << "\nFactorial = " << result1;
+    cout << "\nExecution Time = " << time1 << " microseconds";
+
+    cout << "\n\n--- Recursive Method ---";
+    cout << "\nFactorial = " << result2;
+    cout << "\nExecution Time = " << time2 << " microseconds";
 
     return 0;
 }
