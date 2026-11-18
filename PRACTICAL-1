@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 // Bubble Sort
@@ -60,7 +61,7 @@ void insertionSort(vector<int>& arr)
     }
 }
 
-// Quick Sort
+// Quick Sort Partition
 int partition(vector<int>& arr, int low, int high)
 {
     int pivot = arr[high];
@@ -79,6 +80,7 @@ int partition(vector<int>& arr, int low, int high)
     return i + 1;
 }
 
+// Quick Sort
 void quickSort(vector<int>& arr, int low, int high)
 {
     if(low < high)
@@ -90,7 +92,7 @@ void quickSort(vector<int>& arr, int low, int high)
     }
 }
 
-// Merge Sort
+// Merge Function
 void merge(vector<int>& arr, int left, int mid, int right)
 {
     vector<int> temp;
@@ -118,6 +120,7 @@ void merge(vector<int>& arr, int left, int mid, int right)
     }
 }
 
+// Merge Sort
 void mergeSort(vector<int>& arr, int left, int right)
 {
     if(left < right)
@@ -159,6 +162,9 @@ int main()
     cout << "Enter Choice: ";
     cin >> choice;
 
+    // Start measuring execution time
+    auto start = chrono::high_resolution_clock::now();
+
     switch(choice)
     {
         case 1:
@@ -191,8 +197,19 @@ int main()
             return 0;
     }
 
+    // Stop measuring execution time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time in milliseconds
+    chrono::duration<double, milli> executionTime = end - start;
+
     cout << "Sorted Array: ";
     printArray(arr);
+
+    // Display execution time
+    cout << "\nExecution Time: "
+         << executionTime.count()
+         << " milliseconds" << endl;
 
     return 0;
 }
