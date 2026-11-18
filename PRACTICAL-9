@@ -1,7 +1,7 @@
-
 #include <iostream>
 #include <vector>
 #include <climits>
+#include <chrono>
 using namespace std;
 
 int main() {
@@ -24,6 +24,9 @@ int main() {
     int edges = 0, totalCost = 0;
 
     cout << "\nEdges in Minimum Spanning Tree:\n";
+
+    // Start measuring execution time
+    auto start = chrono::high_resolution_clock::now();
 
     while (edges < n - 1) {
         int minWeight = INT_MAX;
@@ -55,7 +58,17 @@ int main() {
         edges++;
     }
 
+    // Stop measuring execution time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
     cout << "Total MST cost: " << totalCost << '\n';
+
+    cout << "Execution Time: "
+         << executionTime.count()
+         << " milliseconds\n";
 
     return 0;
 }
