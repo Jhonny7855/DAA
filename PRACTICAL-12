@@ -1,7 +1,7 @@
-
 #include <iostream>
 #include <algorithm>
 #include <climits>
+#include <chrono>
 using namespace std;
 
 const int N = 4;
@@ -47,10 +47,23 @@ int main() {
 
     fill(&dp[0][0], &dp[0][0] + (1 << N) * N, -1);
 
+    // Start timer
+    auto start = chrono::high_resolution_clock::now();
+
     int minimumCost = tsp(1, 0);
+
+    // Stop timer
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
 
     cout << "Minimum Travelling Cost: "
          << minimumCost << endl;
+
+    cout << "Execution Time: "
+         << executionTime.count()
+         << " milliseconds" << endl;
 
     return 0;
 }
