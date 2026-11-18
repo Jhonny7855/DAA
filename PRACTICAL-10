@@ -1,7 +1,7 @@
-
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 using namespace std;
 
 struct Edge {
@@ -63,8 +63,7 @@ int main() {
         }
     }
 
-    sort(edges.begin(), edges.end(), compare);
-
+    // Initialize Disjoint Set
     parent.resize(n);
     rankArr.assign(n, 0);
 
@@ -76,6 +75,13 @@ int main() {
 
     cout << "\nEdges in Minimum Spanning Tree:\n";
 
+    // Start measuring execution time
+    auto start = chrono::high_resolution_clock::now();
+
+    // Sort edges by weight
+    sort(edges.begin(), edges.end(), compare);
+
+    // Kruskal's Algorithm
     for (Edge e : edges) {
         if (findParent(e.u) != findParent(e.v)) {
             unite(e.u, e.v);
@@ -91,11 +97,22 @@ int main() {
         }
     }
 
+    // Stop measuring execution time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
     if (count != n - 1) {
         cout << "Graph is disconnected; MST does not exist.\n";
     } else {
         cout << "Total MST cost: " << totalCost << '\n';
     }
+
+    // Display execution time
+    cout << "Execution Time: "
+         << executionTime.count()
+         << " milliseconds\n";
 
     return 0;
 }
