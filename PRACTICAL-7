@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 int main()
@@ -8,6 +9,9 @@ int main()
 
     cout << "Enter amount: ";
     cin >> amount;
+
+    // Start measuring execution time
+    auto start = chrono::high_resolution_clock::now();
 
     // dp[i][j] = minimum number of coins required
     // to make amount j using first i coin types
@@ -83,6 +87,17 @@ int main()
     }
 
     cout << "\n";
+
+    // Stop measuring execution time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
+    // Display execution time
+    cout << "\nExecution Time: "
+         << executionTime.count()
+         << " milliseconds" << endl;
 
     return 0;
 }
