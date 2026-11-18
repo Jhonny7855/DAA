@@ -1,5 +1,5 @@
-
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 #define V 4
@@ -18,6 +18,9 @@ void floydWarshall(int graph[V][V])
         }
     }
 
+    // Start measuring execution time
+    auto start = chrono::high_resolution_clock::now();
+
     // Floyd-Warshall algorithm
     for (int k = 0; k < V; k++)
     {
@@ -35,6 +38,12 @@ void floydWarshall(int graph[V][V])
         }
     }
 
+    // Stop measuring execution time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
     // Print shortest distance matrix
     cout << "Shortest distance matrix:\n";
 
@@ -43,12 +52,16 @@ void floydWarshall(int graph[V][V])
         for (int j = 0; j < V; j++)
         {
             if (dist[i][j] == INF)
-                cout << "INF ";
+                cout << "INF\t";
             else
                 cout << dist[i][j] << "\t";
         }
         cout << endl;
     }
+
+    // Print execution time
+    cout << "\nExecution Time: "
+         << executionTime.count() << " milliseconds" << endl;
 }
 
 int main()
