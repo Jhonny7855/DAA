@@ -1,5 +1,6 @@
 #include <iostream>
 #include <climits>
+#include <chrono>
 using namespace std;
 
 int matrixChainMultiplication(int p[], int n) {
@@ -11,7 +12,7 @@ int matrixChainMultiplication(int p[], int n) {
     for (int i = 1; i < n; i++)
         dp[i][i] = 0;
 
-    // chain length
+    // Chain length
     for (int len = 2; len < n; len++) {
         for (int i = 1; i < n - len + 1; i++) {
             int j = i + len - 1;
@@ -41,8 +42,23 @@ int main() {
     int p[] = {10, 20, 30, 40, 30};
     int n = sizeof(p) / sizeof(p[0]);
 
+    // Start timer
+    auto start = chrono::high_resolution_clock::now();
+
+    int result = matrixChainMultiplication(p, n);
+
+    // Stop timer
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
     cout << "Minimum number of scalar multiplications = "
-         << matrixChainMultiplication(p, n);
+         << result << endl;
+
+    cout << "Execution Time = "
+         << executionTime.count()
+         << " milliseconds" << endl;
 
     return 0;
 }
