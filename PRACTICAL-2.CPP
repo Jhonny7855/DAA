@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 // Linear Search
@@ -61,6 +62,9 @@ int main()
     cout << "Enter Element to Search: ";
     cin >> key;
 
+    // Start measuring time
+    auto start = chrono::high_resolution_clock::now();
+
     switch(choice)
     {
         case 1:
@@ -76,14 +80,25 @@ int main()
             return 0;
     }
 
+    // Stop measuring time
+    auto end = chrono::high_resolution_clock::now();
+
+    // Calculate execution time
+    chrono::duration<double, milli> executionTime = end - start;
+
     if(result != -1)
     {
-        cout << "Element Found at Position: " << result + 1;
+        cout << "\nElement Found at Position: " << result + 1;
     }
     else
     {
-        cout << "Element Not Found";
+        cout << "\nElement Not Found";
     }
+
+    // Display execution time
+    cout << "\nExecution Time: "
+         << executionTime.count()
+         << " milliseconds";
 
     return 0;
 }
